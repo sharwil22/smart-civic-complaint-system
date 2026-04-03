@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - View Complaints</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-btn">← Back to Home</a>
+        
+        <div class="header">
+            <h1>🔵 Admin Dashboard</h1>
+            <p>All Complaints Sorted by Priority</p>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-number">{{ complaints|length }}</div>
+                <div class="stat-label">Total Complaints</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ complaints|selectattr('priority', 'equalto', 1)|list|length }}</div>
+                <div class="stat-label">🔥 Critical</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ complaints|selectattr('priority', 'equalto', 2)|list|length }}</div>
+                <div class="stat-label">⚠️ High</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ complaints|selectattr('priority', 'equalto', 3)|list|length }}</div>
+                <div class="stat-label">📌 Medium</div>
+            </div>
+        </div>
+
+        {% if complaints %}
+        <div class="complaints-grid">
+            {% for complaint in complaints %}
+            <div class="complaint-card priority-{{ complaint.priority }}">
+                <div class="complaint-header">
+                    <span class="complaint-id">🆔 ID: {{ complaint.id }}</span>
+                    <span class="priority-badge">
+                        Priority {{ complaint.priority }}
+                        {% if complaint.priority == 1 %}🔥🔥🔥
+                        {% elif complaint.priority == 2 %}⚠️⚠️
+                        {% elif complaint.priority == 3 %}📌
+                        {% else %}📋
+                        {% endif %}
+                    </span>
+                </div>
+                
+                <div class="complaint-category">
+                    📂 {{ complaint.category }}
+                </div>
+                
+                <div class="complaint-details">
+                    <p><strong>👤 Name:</strong> {{ complaint.name }}</p>
+                    <p><strong>📍 Location:</strong> {{ complaint.location }}</p>
+                    <p><strong>📅 Time:</strong> {{ complaint.timestamp }}</p>
+                    <p><strong>🔄 Status:</strong> {{ complaint.status }}</p>
+                </div>
+                
+                <div class="complaint-text">
+                    "{{ complaint.complaint }}"
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="legend">
+            <h3>📋 Priority Legend</h3>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #e74c3c;"></div>
+                    <span><strong>Priority 1 🔥🔥🔥</strong> - CRITICAL (Fire/Medical Emergency)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #f39c12;"></div>
+                    <span><strong>Priority 2 ⚠️⚠️</strong> - HIGH (Electricity)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #3498db;"></div>
+                    <span><strong>Priority 3 📌</strong> - MEDIUM (Water/Road)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #95a5a6;"></div>
+                    <span><strong>Priority 4 📋</strong> - LOW (Garbage/Other)</span>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="no-complaints">
+            <div class="no-complaints-icon">📭</div>
+            <h2>No Complaints Yet</h2>
+            <p>When citizens submit complaints, they will appear here sorted by priority.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        // Auto-refresh every 30 seconds
+        setTimeout(() => {
+            location.reload();
+        }, 30000);
+    </script>
+</body>
+</html>

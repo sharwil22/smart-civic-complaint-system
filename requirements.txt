@@ -1,0 +1,7 @@
+# Flask for web interface
+flask==3.0.0
+
+# Production WSGI server
+gunicorn==21.2.0
+
+# Python version: 3.7+
