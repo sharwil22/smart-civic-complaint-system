@@ -79,11 +79,11 @@ smart-complaint-system/
 
 ### 🧾 Citizen Complaint Portal
 
-![Portal](screenshots/portal.png)
+![Portal](portal.png)
 
 ### 📊 Complaint Dashboard
 
-![Dashboard](screenshots/dashboard.png)
+![Dashboard](dashboard.png)
 
 ---
 
