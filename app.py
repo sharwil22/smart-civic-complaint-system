@@ -10,7 +10,7 @@ CATEGORIES = {
     "Fire Emergency": {
         "priority": 1, 
         "keywords": [
-            # English
+            # English.
             "fire", "burning", "smoke", "flames", "blaze", "burn",
             # Hindi
             "aag", "aag lag", "aag lagi", "aag lagayi", "dhuaan", "dhua", "dhuan",
