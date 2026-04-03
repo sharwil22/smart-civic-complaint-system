@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citizen Portal - Submit Complaint</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-btn">← Back to Home</a>
+        
+        <div class="header">
+            <h1>🔴 Citizen Complaint Portal</h1>
+            <p>Submit your complaint in English, Hindi, or Marathi</p>
+        </div>
+
+        <div class="form-container">
+            <form id="complaintForm">
+                <div class="form-group">
+                    <label for="name">👤 Your Name</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="location">📍 Location</label>
+                    <input type="text" id="location" name="location" required placeholder="Enter your area/locality">
+                </div>
+
+                <div class="form-group">
+                    <label for="complaint">📝 Your Complaint (English / Hindi / Marathi)</label>
+                    <textarea id="complaint" name="complaint" required placeholder="Describe your complaint in detail...&#10;&#10;Examples:&#10;• Mere area mein paani nahi aa raha hai&#10;• There is no electricity since morning&#10;• Mazya area madhe kachra nahi uthavla"></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">Submit Complaint</button>
+            </form>
+
+            <div id="successMessage" class="success-message">
+                <h3>✅ Complaint Submitted Successfully!</h3>
+                <div id="complaintDetails"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('complaintForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            
+            try {
+                const response = await fetch('/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    const complaint = result.complaint;
+                    const priorityEmoji = complaint.priority === 1 ? '🔥🔥🔥' : 
+                                        complaint.priority === 2 ? '⚠️⚠️' : 
+                                        complaint.priority === 3 ? '📌' : '📋';
+                    
+                    document.getElementById('complaintDetails').innerHTML = `
+                        <p><strong>🆔 Complaint ID:</strong> ${complaint.id}</p>
+                        <p><strong>📂 Category:</strong> ${complaint.category}</p>
+                        <p><strong>⚡ Priority:</strong> ${complaint.priority} ${priorityEmoji}</p>
+                        <p><strong>📅 Submitted:</strong> ${complaint.timestamp}</p>
+                        <p style="margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.3); border-radius: 8px;">
+                            Your complaint has been registered and will be addressed according to its priority level.
+                        </p>
+                    `;
+                    
+                    document.getElementById('successMessage').classList.add('show');
+                    this.reset();
+                    
+                    // Hide success message after 10 seconds
+                    setTimeout(() => {
+                        document.getElementById('successMessage').classList.remove('show');
+                    }, 10000);
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                alert('Error submitting complaint. Please try again.');
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>

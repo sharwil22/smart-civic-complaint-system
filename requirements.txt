@@ -1,0 +1,4 @@
+# Flask for web interface
+flask==3.0.0
+
+# Python version: 3.7+

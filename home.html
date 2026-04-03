@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Complaint Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏛️ Smart Complaint Management System</h1>
+            <p>Efficient Complaint Handling for Smart Cities</p>
+        </div>
+
+        <div class="portal-selection">
+            <div class="portal-card citizen" onclick="window.location.href='/citizen'">
+                <div class="portal-icon">🔴</div>
+                <h2>Citizen Portal</h2>
+                <p>Submit your complaint in English, Hindi, or Marathi. Get instant classification and priority assignment.</p>
+                <a href="/citizen" class="btn btn-citizen">Submit Complaint</a>
+            </div>
+
+            <div class="portal-card admin" onclick="window.location.href='/admin'">
+                <div class="portal-icon">🔵</div>
+                <h2>Admin Dashboard</h2>
+                <p>View all complaints sorted by priority. Monitor and manage citizen complaints efficiently.</p>
+                <a href="/admin" class="btn btn-admin">View Dashboard</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
