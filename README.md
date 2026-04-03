@@ -1,1 +1,0 @@
-# smart-civic-complaint-system
